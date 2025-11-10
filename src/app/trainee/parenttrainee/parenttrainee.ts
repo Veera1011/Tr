@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 })
 export class Parenttrainee {
 
-  trainings = ['Angular', 'Node js', 'Express js', 'MongoDB']
+  trainings = ['MEAN', 'CBP', 'SAP', 'Functional'];
   status = ['Pending', 'Ongoing', 'Completed']
   childres = ''
 

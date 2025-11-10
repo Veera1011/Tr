@@ -20,11 +20,11 @@
         id="trainingName"
         formControlName="TrainingName"
         [class.invalid]="traineeForm.get('TrainingName')?.invalid && traineeForm.get('TrainingName')?.touched">
-        <option value="" disabled>Select training</option>
-        <option value="Angular">Angular</option>
-        <option value="Node js">Node js</option>
-        <option value="Express js">Express js</option>
-        <option value="MongoDB">MongoDB</option>
+        <!-- <option value="" disabled>Select training</option> -->
+        <option value="MEAN">MEAN</option>
+        <option value="CBP">CBP</option>
+        <option value="SAP">SAP</option>
+        <option value="Functional">Functional</option>
       </select>
       <span class="error" *ngIf="traineeForm.get('TrainingName')?.invalid && traineeForm.get('TrainingName')?.touched">
         Training name is required
