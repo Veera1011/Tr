@@ -1,12 +1,13 @@
 <nav>
-<div  class="nav-left">
-  <!-- <img class="pic" *ngIf="pic" [src]="pic" alt="this is your profile"> -->
-</div>
+  <div class="nav-left">
+    <!-- <img class="pic" *ngIf="pic" [src]="pic" alt="this is your profile"> -->
+  </div>
   <div class="nav-center">HR Trainee Management</div>
   <div class="nav-right">
     <a routerLink="">Home</a>
     <a *ngIf="!show" routerLink="login">Login</a>
     <a *ngIf="!show" routerLink="register">Register</a>
+    <a *ngIf="show" routerLink="dashboard" routerLinkActive="active">Dashboard</a>
     <a *ngIf="show" routerLink="traineem">Add Trainee</a>
     <a *ngIf="show" routerLink="traineem/traineelist">Trainee List</a>
     <button *ngIf="show" (click)="logoutuser()">Logout</button>

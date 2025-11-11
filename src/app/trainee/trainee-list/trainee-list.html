@@ -33,14 +33,14 @@
     </thead>
     <tbody>
       <tr *ngFor="let trainee of trainees">
-        <td>{{ trainee.EmployeeName }}</td>
+        <td>{{ trainee.employeeName }}</td>
         <td>{{ trainee.TrainingName }}</td>
         <td>{{ trainee.StartDate | date:'shortDate' }}</td>
         <td>{{ trainee.EndDate ? (trainee.EndDate | date:'shortDate') : 'Not Given' }}</td>
         <td [appStatus]="(trainee.Status).toLowerCase()">{{ trainee.Status }}</td>
        <td>
   <button  type="button" [routerLink]="['/traineem/edit', trainee._id]">Edit</button>
-  <button  type="button" (click)="deleteTrainee(trainee.EmployeeName)">Delete</button>
+  <button  type="button" (click)="deleteTrainee(trainee.employeeName)">Delete</button>
 </td>
 
       </tr>

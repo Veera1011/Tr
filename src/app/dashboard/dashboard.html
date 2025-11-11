@@ -1,0 +1,130 @@
+<div class="dashboard-container" *ngIf="!loading; else loadingSpinner">
+  <h1 class="dashboard-title">Training Dashboard</h1>
+
+  <!-- Key Metrics Cards -->
+  <div class="metrics-grid">
+    <div class="metric-card primary">
+      <div class="metric-icon">👥</div>
+      <div class="metric-content">
+        <h3>Total Trainees</h3>
+        <p class="metric-value">{{ stats.totalTrainees }}</p>
+      </div>
+    </div>
+
+    <div class="metric-card success">
+      <div class="metric-icon">📚</div>
+      <div class="metric-content">
+        <h3>Total Trainings</h3>
+        <p class="metric-value">{{ stats.totalTrainings }}</p>
+      </div>
+    </div>
+
+    <div class="metric-card warning">
+      <div class="metric-icon">⏳</div>
+      <div class="metric-content">
+        <h3>Ongoing</h3>
+        <p class="metric-value">{{ stats.ongoingTrainings }}</p>
+      </div>
+    </div>
+
+    <div class="metric-card completed">
+      <div class="metric-icon">✅</div>
+      <div class="metric-content">
+        <h3>Completed</h3>
+        <p class="metric-value">{{ stats.completedTrainings }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Status Breakdown -->
+  <div class="status-section">
+    <h2>Training Status Breakdown</h2>
+    <div class="status-bars">
+      <div class="status-item">
+        <div class="status-label">
+          <span>Pending</span>
+          <span class="status-count">{{ stats.pendingTrainings }} ({{ getStatusPercentage('Pending') }}%)</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill pending" [style.width.%]="getStatusPercentage('Pending')"></div>
+        </div>
+      </div>
+
+      <div class="status-item">
+        <div class="status-label">
+          <span>Ongoing</span>
+          <span class="status-count">{{ stats.ongoingTrainings }} ({{ getStatusPercentage('Ongoing') }}%)</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill ongoing" [style.width.%]="getStatusPercentage('Ongoing')"></div>
+        </div>
+      </div>
+
+      <div class="status-item">
+        <div class="status-label">
+          <span>Completed</span>
+          <span class="status-count">{{ stats.completedTrainings }} ({{ getStatusPercentage('Completed') }}%)</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill completed" [style.width.%]="getStatusPercentage('Completed')"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Training Categories -->
+  <div class="training-categories">
+    <h2>Trainings by Category</h2>
+    <div class="category-grid">
+      <div class="category-card" *ngFor="let training of trainingCategories">
+        <h3>{{ training }}</h3>
+        <p class="category-count">{{ stats.traineesByTraining[training] || 0 }}</p>
+        <span class="category-label">enrollments</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Two Column Layout -->
+  <div class="info-grid">
+    <!-- Upcoming Trainings -->
+    <div class="info-card">
+      <h2>Upcoming Trainings</h2>
+      <div class="training-list" *ngIf="stats.upcomingTrainings.length > 0; else noUpcoming">
+        <div class="training-item" *ngFor="let training of stats.upcomingTrainings">
+          <div class="training-info">
+            <strong>{{ training.employeeName }}</strong>
+            <span class="training-name">{{ training.TrainingName }}</span>
+          </div>
+          <span class="training-date">{{ training.StartDate | date:'MMM dd, yyyy' }}</span>
+        </div>
+      </div>
+      <ng-template #noUpcoming>
+        <p class="no-data">No upcoming trainings</p>
+      </ng-template>
+    </div>
+
+    <!-- Recent Completions -->
+    <div class="info-card">
+      <h2>Recent Completions</h2>
+      <div class="training-list" *ngIf="stats.recentCompletions.length > 0; else noCompletions">
+        <div class="training-item" *ngFor="let training of stats.recentCompletions">
+          <div class="training-info">
+            <strong>{{ training.employeeName }}</strong>
+            <span class="training-name">{{ training.TrainingName }}</span>
+          </div>
+          <span class="training-date">{{ (training.EndDate || training.StartDate) | date:'MMM dd, yyyy' }}</span>
+        </div>
+      </div>
+      <ng-template #noCompletions>
+        <p class="no-data">No completed trainings yet</p>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+<ng-template #loadingSpinner>
+  <div class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading dashboard...</p>
+  </div>
+</ng-template>

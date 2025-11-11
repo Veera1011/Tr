@@ -5,7 +5,6 @@
   background: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
- 
 
   h2 {
     margin-bottom: 1.5rem;
@@ -18,14 +17,13 @@
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
-    border-radius: 10px;
-    
   }
 
   .form-group {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    position: relative;
 
     label {
       font-weight: 500;
@@ -33,8 +31,7 @@
       font-size: 0.95rem;
     }
 
-    input,
-    select {
+    input:not(.search-input), select {
       padding: 0.75rem;
       border: 1px solid #ddd;
       border-radius: 4px;
@@ -64,6 +61,103 @@
       color: #e74c3c;
       font-size: 0.85rem;
     }
+
+    // Employee search styles
+    .employee-search {
+      position: relative;
+
+      .search-input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #ddd;
+        border-radius: 6px;
+        font-size: 1rem;
+
+        &:focus {
+          outline: none;
+          border-color: #4a90e2;
+        }
+      }
+
+      .employee-dropdown {
+        position: absolute;
+        top: calc(100% + 5px);
+        left: 0;
+        right: 0;
+        max-height: 250px;
+        overflow-y: auto;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+
+        .employee-item {
+          padding: 0.75rem 1rem;
+          cursor: pointer;
+          border-bottom: 1px solid #f0f0f0;
+
+          &:hover {
+            background: #f8f9fa;
+          }
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          .emp-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+
+            strong {
+              color: #333;
+              font-size: 0.95rem;
+            }
+
+            small {
+              color: #666;
+              font-size: 0.8rem;
+            }
+          }
+        }
+      }
+    }
+
+    .selected-employee {
+      margin-top: 0.5rem;
+
+      .emp-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        background: #e3f2fd;
+        border: 1px solid #2196f3;
+        border-radius: 6px;
+        color: #1976d2;
+        font-size: 0.9rem;
+
+        strong {
+          font-weight: 600;
+        }
+
+        .clear-btn {
+          background: none;
+          border: none;
+          color: #1976d2;
+          font-size: 1.5rem;
+          line-height: 1;
+          cursor: pointer;
+          padding: 0;
+          margin-left: 0.5rem;
+
+          &:hover {
+            color: #0d47a1;
+          }
+        }
+      }
+    }
   }
 
   .button-group {
@@ -89,11 +183,19 @@
     .btn-primary {
       background-color: #4a90e2;
       color: white;
+
+      &:hover:not(:disabled) {
+        background-color: #357abd;
+      }
     }
 
     .btn-secondary {
       background-color: #95a5a6;
       color: white;
+
+      &:hover {
+        background-color: #7f8c8d;
+      }
     }
   }
 }

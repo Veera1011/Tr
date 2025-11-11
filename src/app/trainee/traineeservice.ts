@@ -1,14 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable,filter,map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
-export interface Trainee{
-  _id?:any,
-  EmployeeName:string,
-  TrainingName:string,
-  StartDate:Date,
-  EndDate?:Date,
-  Status:string
+export interface Trainee {
+  _id?: any;
+  employeeId: string;      // NEW: unique identifier
+  employeeName: string;    // CHANGED: lowercase 'e'
+  TrainingName: string;
+  StartDate: Date;
+  EndDate?: Date;
+  Status: string;
 }
 
 @Injectable({
@@ -16,70 +17,33 @@ export interface Trainee{
 })
 export class Traineeservice {
 
-  baseurl='http://localhost:5000/trainees';
+  baseurl = 'http://localhost:5000/trainees';
 
-  constructor(private http:HttpClient){}
+  constructor(private http: HttpClient) {}
 
+  addTrainee(trainee: Trainee): Observable<Trainee> {
+    return this.http.post<Trainee>(`${this.baseurl}`, trainee);
+  }
 
-addTrainee(trainee:Trainee):Observable<Trainee>{
+  getTrainees(): Observable<Trainee[]> {
+    return this.http.get<{data: Trainee[]}>(this.baseurl)
+      .pipe(map(response => response.data));
+  }
 
-  return this.http.post<Trainee>(`${this.baseurl}`,trainee);
+  getTraineesByEmployeeId(employeeId: string): Observable<Trainee[]> {
+    return this.http.get<{data: Trainee[]}>(`${this.baseurl}/employee/${employeeId}`)
+      .pipe(map(response => response.data));
+  }
+
+  deletebyname(name: string): Observable<any> {
+    return this.http.delete<any>(`${this.baseurl}/name/${name}`);
+  }
+
+  updateTrainee(id: string, trainee: Trainee): Observable<Trainee> {
+    return this.http.put<Trainee>(`${this.baseurl}/${id}`, trainee);
+  }
+
+  deleteTrainee(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.baseurl}/${id}`);
+  }
 }
-
-getTrainees(): Observable<Trainee[]> {
-  return this.http.get<{data: Trainee[] }>(this.baseurl)
-    .pipe(
-      map(response => response.data),
-      
-    );
-}
-
-deletebyname(name:string):Observable<any>{
-
-  return this.http.delete<any>(`${this.baseurl}/name/${name}`);
-}
-
-updateTrainee(id: string, trainee: Trainee): Observable<Trainee> {
-  return this.http.put<Trainee>(`${this.baseurl}/${id}`, trainee);
-}
-
-
-  
-  
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// getTrainees(): Observable<Trainee[]> {
-//   return this.http.get<{ success: boolean; count: number; data: Trainee[] }>(this.baseurl)
-//     .pipe(
-//       map(response => response.data),
-      
-//     ).pipe(map((a:any)=>a.sort((a:any,b:any)=>b.Status.localeCompare(a.Status))));
-// }
-

@@ -1,22 +1,47 @@
 <div class="trainee-form-container">
   <h2>Add Trainee</h2>
   <form [formGroup]="traineeform" (ngSubmit)="addTrainee()">
+    
+    <!-- Employee Selection -->
     <div class="form-group">
-      <label for="employeeName">Employee Name</label>
-      <input 
-        id="employeeName"
-        type="text" 
-        formControlName="EmployeeName"
-        placeholder="Enter employee name"
-        autocomplete="off"
-        [class.invalid]="traineeform.get('EmployeeName')?.invalid && traineeform.get('EmployeeName')?.touched" />
-      <span class="error" *ngIf="traineeform.get('EmployeeName')?.invalid && traineeform.get('EmployeeName')?.touched">
-        Employee name is required
+      <label for="employeeId">Select Employee *</label>
+      <div class="employee-search">
+        <input 
+          type="text"
+          [(ngModel)]="searchTerm"
+          [ngModelOptions]="{standalone: true}"
+          (ngModelChange)="searchEmployees()"
+          placeholder="Search employee by name, ID, or email..."
+          class="search-input"
+          (focus)="showDropdown = true">
+        
+        <div class="employee-dropdown" *ngIf="showDropdown && filteredEmployees.length > 0">
+          <div 
+            class="employee-item" 
+            *ngFor="let emp of filteredEmployees"
+            (click)="selectEmployee(emp)">
+            <div class="emp-info">
+              <strong>{{ emp.employeeId }}</strong> - {{ emp.employeeName }}
+              <small>{{ emp.email }} | {{ emp.department }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="selected-employee" *ngIf="selectedEmployee">
+        <span class="emp-badge">
+          <strong>{{ selectedEmployee.employeeId }}</strong> - {{ selectedEmployee.employeeName }}
+          <button type="button" class="clear-btn" (click)="clearEmployee()">×</button>
+        </span>
+      </div>
+      
+      <span class="error" *ngIf="traineeform.get('employeeId')?.invalid && traineeform.get('employeeId')?.touched">
+        Please select an employee
       </span>
     </div>
 
     <div class="form-group">
-      <label for="trainingName">Training Name</label>
+      <label for="trainingName">Training Name *</label>
       <select 
         id="trainingName"
         formControlName="TrainingName"
@@ -30,7 +55,7 @@
     </div>
 
     <div class="form-group">
-      <label for="startDate">Start Date</label>
+      <label for="startDate">Start Date *</label>
       <input 
         id="startDate"
         type="date" 
@@ -50,15 +75,13 @@
     </div>
 
     <div class="form-group">
-      <label for="status">Status</label>
+      <label for="status">Status *</label>
       <select 
         id="status"
         formControlName="Status"
         [class.invalid]="traineeform.get('Status')?.invalid && traineeform.get('Status')?.touched">
         <option value="">Select Status</option>
-        <option *ngFor="let s of status"  value="{{s}}">{{s}}</option>
-        <!-- <option value="Ongoing">Ongoing</option>
-        <option value="Completed">Completed</option> -->
+        <option *ngFor="let s of status" [value]="s">{{ s }}</option>
       </select>
       <span class="error" *ngIf="traineeform.get('Status')?.invalid && traineeform.get('Status')?.touched">
         Status is required
@@ -69,12 +92,11 @@
       <button type="submit" class="btn-primary" [disabled]="traineeform.invalid">
         Submit
       </button>
-      <button type="button" class="btn-secondary" (click)="traineeform.reset()">
+      <button type="button" class="btn-secondary" (click)="resetForm()">
         Reset
       </button>
     </div>
   </form>
 </div>
-
 
 <ng-content></ng-content>
